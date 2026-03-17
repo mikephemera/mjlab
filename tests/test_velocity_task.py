@@ -5,6 +5,7 @@ import pytest
 from mjlab.asset_zoo.robots import (
     G1_ACTION_SCALE,
     GO1_ACTION_SCALE,
+    GO2_ACTION_SCALE,
     XIAOLI_ACTION_SCALE,
 )
 from mjlab.envs.mdp.actions import JointPositionActionCfg
@@ -28,6 +29,12 @@ def g1_velocity_task_ids(velocity_task_ids: list[str]) -> list[str]:
 def go1_velocity_task_ids(velocity_task_ids: list[str]) -> list[str]:
     """Get all Go1 velocity task IDs."""
     return [t for t in velocity_task_ids if "Go1" in t]
+
+
+@pytest.fixture(scope="module")
+def go2_velocity_task_ids(velocity_task_ids: list[str]) -> list[str]:
+    """Get all Go2 velocity task IDs."""
+    return [t for t in velocity_task_ids if "Go2" in t]
 
 
 @pytest.fixture(scope="module")
@@ -80,6 +87,22 @@ def test_g1_velocity_has_required_sensors(g1_velocity_task_ids: list[str]) -> No
 def test_go1_velocity_has_required_sensors(go1_velocity_task_ids: list[str]) -> None:
     """Go1 velocity tasks should have feet/ground and nonfoot/ground sensors."""
     for task_id in go1_velocity_task_ids:
+        cfg = load_env_cfg(task_id)
+
+        assert cfg.scene.sensors is not None, f"Task {task_id} has no sensors"
+
+        sensor_names = {s.name for s in cfg.scene.sensors}
+        assert (
+            "feet_ground_contact" in sensor_names
+        ), f"Task {task_id} missing feet_ground_contact sensor"
+        assert (
+            "nonfoot_ground_touch" in sensor_names
+        ), f"Task {task_id} missing nonfoot_ground_touch sensor"
+
+
+def test_go2_velocity_has_required_sensors(go2_velocity_task_ids: list[str]) -> None:
+    """Go2 velocity tasks should have feet/ground and nonfoot/ground sensors."""
+    for task_id in go2_velocity_task_ids:
         cfg = load_env_cfg(task_id)
 
         assert cfg.scene.sensors is not None, f"Task {task_id} has no sensors"
@@ -222,6 +245,25 @@ def test_go1_velocity_has_correct_action_scale(
         assert (
             joint_pos_action.scale == GO1_ACTION_SCALE
         ), f"Task {task_id} action scale mismatch, expected GO1_ACTION_SCALE"
+
+
+def test_go2_velocity_has_correct_action_scale(
+    go2_velocity_task_ids: list[str],
+) -> None:
+    """Go2 velocity tasks should use GO2_ACTION_SCALE."""
+    for task_id in go2_velocity_task_ids:
+        cfg = load_env_cfg(task_id)
+
+        assert "joint_pos" in cfg.actions, f"Task {task_id} missing 'joint_pos' action"
+
+        joint_pos_action = cfg.actions["joint_pos"]
+        assert isinstance(
+            joint_pos_action, JointPositionActionCfg
+        ), f"Task {task_id} joint_pos action is not JointPositionActionCfg"
+
+        assert (
+            joint_pos_action.scale == GO2_ACTION_SCALE
+        ), f"Task {task_id} action scale mismatch, expected GO2_ACTION_SCALE"
 
 
 def test_xiaoli_velocity_has_correct_action_scale(

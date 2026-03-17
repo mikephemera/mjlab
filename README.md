@@ -45,8 +45,13 @@ Train a Unitree G1 humanoid to follow velocity commands on flat terrain:
 uv run train Mjlab-Velocity-Flat-Unitree-G1 --env.scene.num-envs 4096
 
 # Added by Yi
+# Xiaoli
 uv run train Mjlab-Velocity-Flat-Xiaoli
 uv run train Mjlab-Velocity-Rough-Xiaoli
+
+# Go2
+uv run train Mjlab-Velocity-Flat-Unitree-Go2
+uv run train Mjlab-Velocity-Rough-Unitree-Go2
 ```
 
 **Multi-GPU Training:** Scale to multiple GPUs using `--gpu-ids`:
@@ -72,6 +77,9 @@ Train a humanoid to mimic reference motions. See the [motion imitation guide](ht
 ```bash
 uv run train Mjlab-Tracking-Flat-Unitree-G1 --registry-name your-org/motions/motion-name --env.scene.num-envs 4096
 uv run play Mjlab-Tracking-Flat-Unitree-G1 --wandb-run-path your-org/mjlab/run-id
+
+# Added by Yi
+uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velocity/2026-03-17_18-08-56/model_9999.pt
 ```
 
 ### 3. Sanity-check with Dummy Agents

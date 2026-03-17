@@ -32,6 +32,8 @@ Added
 - Added Xiaoli velocity tasks (``Mjlab-Velocity-Rough-Xiaoli`` and
   ``Mjlab-Velocity-Flat-Xiaoli``) so Xiaoli can be trained with the standard
   ``train`` workflow.
+- Added Unitree Go2 flat velocity task (``Mjlab-Velocity-Flat-Unitree-Go2``)
+  so Go2 can be trained with the same ``train`` workflow used by Go1.
 
 Changed
 ^^^^^^^
