@@ -21,6 +21,7 @@ import viser
 from mjlab.asset_zoo.robots import (
   get_g1_robot_cfg,
   get_go1_robot_cfg,
+  get_xiaoli_robot_cfg,
   get_yam_robot_cfg,
 )
 from mjlab.terrains.config import ALL_TERRAINS_CFG
@@ -38,6 +39,7 @@ ROBOT_CFG_GETTERS = {
   "None": None,
   "Unitree Go1": get_go1_robot_cfg,
   "Unitree G1": get_g1_robot_cfg,
+  "Xiaoli": get_xiaoli_robot_cfg,
   "Yam": get_yam_robot_cfg,
 }
 
@@ -407,12 +409,18 @@ def main():
             cur_val = (v_min + v_max) / 2.0
 
           slider = server.gui.add_slider(
-            field.name, min=v_min, max=v_max, step=v_step, initial_value=cur_val
+            field.name,
+            min=v_min,
+            max=v_max,
+            step=v_step,
+            initial_value=cur_val,
           )
 
           @slider.on_update
           def _(
-            event, name=field.name, is_int=("int" in type_str) or field.type is int
+            event,
+            name=field.name,
+            is_int=("int" in type_str) or field.type is int,
           ):
             val = event.target.value
             if is_int:
@@ -482,7 +490,9 @@ def main():
       update_terrain()
 
     robot_select = server.gui.add_dropdown(
-      "Robot", options=list(ROBOT_CFG_GETTERS.keys()), initial_value=state["robot_name"]
+      "Robot",
+      options=list(ROBOT_CFG_GETTERS.keys()),
+      initial_value=state["robot_name"],
     )
 
     @robot_select.on_update
