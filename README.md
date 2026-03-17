@@ -43,6 +43,10 @@ Train a Unitree G1 humanoid to follow velocity commands on flat terrain:
 
 ```bash
 uv run train Mjlab-Velocity-Flat-Unitree-G1 --env.scene.num-envs 4096
+
+# Added by Yi
+uv run train Mjlab-Velocity-Flat-Xiaoli
+uv run train Mjlab-Velocity-Rough-Xiaoli
 ```
 
 **Multi-GPU Training:** Scale to multiple GPUs using `--gpu-ids`:

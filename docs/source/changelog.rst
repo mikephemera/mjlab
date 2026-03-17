@@ -29,6 +29,9 @@ Added
   (projected through the transmission). ``qfrc_external`` recovers the
   generalized force from body external wrenches (``xfrc_applied``)
   (:issue:`776`).
+- Added Xiaoli velocity tasks (``Mjlab-Velocity-Rough-Xiaoli`` and
+  ``Mjlab-Velocity-Flat-Xiaoli``) so Xiaoli can be trained with the standard
+  ``train`` workflow.
 
 Changed
 ^^^^^^^
