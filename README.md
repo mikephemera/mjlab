@@ -53,6 +53,13 @@ uv run train Mjlab-Velocity-Rough-Xiaoli --env.scene.num-envs 4096
 # Go2
 uv run train Mjlab-Velocity-Flat-Unitree-Go2 --env.scene.num-envs 4096
 uv run train Mjlab-Velocity-Rough-Unitree-Go2 --env.scene.num-envs 4096
+
+# resume run
+uv run train Mjlab-Velocity-Flat-Unitree-Go2 \
+  --env.scene.num-envs 4096 \
+  --agent.resume True \
+  --agent.load-run "2026-03-18_10-39-38-Flat"   # Optional
+  #--agent.load-checkpoint "model_1500.pt"
 ```
 
 **Multi-GPU Training:** Scale to multiple GPUs using `--gpu-ids`:
@@ -84,7 +91,7 @@ uv run train Mjlab-Tracking-Flat-Unitree-G1 --registry-name your-org/motions/mot
 uv run play Mjlab-Tracking-Flat-Unitree-G1 --wandb-run-path your-org/mjlab/run-id
 
 
-uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velocity/2026-03-18_10-24-53/model_0.pt
+uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velocity/2026-03-18_11-14-10/model_0.pt
 
 uv run play Mjlab-Velocity-Flat-Unitree-Go1 --checkpoint_file logs/rsl_rl/go1_velocity/2026-03-18_10-10-07/model_450.pt
 

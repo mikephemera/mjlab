@@ -41,13 +41,14 @@ def xiaoli_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
         num_slots=1,
         track_air_time=True,
     )
+    # Xiaoli's lower-leg meshes can legitimately brush terrain in resting poses.
+    # Treat only base-ground contact as illegal to avoid constant reset loops.
     nonfoot_ground_cfg = ContactSensorCfg(
         name="nonfoot_ground_touch",
         primary=ContactMatch(
             mode="body",
             entity="robot",
-            pattern=r".*",
-            exclude=tuple(foot_names),
+            pattern="base",
         ),
         secondary=ContactMatch(mode="body", pattern="terrain"),
         fields=("found", "force"),
