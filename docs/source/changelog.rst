@@ -34,10 +34,16 @@ Added
   ``train`` workflow.
 - Added Unitree Go2 flat velocity task (``Mjlab-Velocity-Flat-Unitree-Go2``)
   so Go2 can be trained with the same ``train`` workflow used by Go1.
+- Added ``RewardBarPanel`` to the Viser viewer, showing horizontal bars for
+  each reward term with a running mean over ~1 second (:issue:`800`).
 
 Changed
 ^^^^^^^
 
+- In curriculum terrain mode, each terrain type now gets exactly one column
+  (``num_cols`` is set to ``len(sub_terrains)``). The ``proportion`` field
+  now controls robot spawning distribution across columns rather than column
+  count. Random mode is unchanged (:issue:`811`).
 - ``BoxSteppingStonesTerrainCfg`` stone size now decreases with difficulty,
   interpolating from the large end of ``stone_size_range`` at difficulty 0
   to the small end at difficulty 1 (:issue:`785`).
@@ -61,6 +67,8 @@ Fixed
 - ``create_velocity_actuator`` no longer sets ``ctrllimited=True`` with
   ``inheritrange=1.0``. This caused a ``ValueError`` for continuous joints
   (e.g. wheels) that have no position range defined (:issue:`787`).
+- ``write_root_com_velocity_to_sim`` no longer fails with tensor ``env_ids``
+  on floating base entities (:issue:`793`).
 - Joint limits for unlimited joints are now set to [-inf, inf] instead of
   [0, 0]. Previously the zero range caused incorrect clamping for entities
   with unlimited hinge or slide joints.
