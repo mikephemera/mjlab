@@ -40,7 +40,7 @@ def xiaoli_ppo_runner_cfg() -> RslRlOnPolicyRunnerCfg:
             max_grad_norm=1.0,
         ),
         experiment_name="xiaoli_velocity",
-        save_interval=50,
+        save_interval=100,
         num_steps_per_env=24,
         max_iterations=10_000+1,
     )
