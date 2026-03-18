@@ -43,15 +43,16 @@ Train a Unitree G1 humanoid to follow velocity commands on flat terrain:
 
 ```bash
 uv run train Mjlab-Velocity-Flat-Unitree-G1 --env.scene.num-envs 4096
+uv run train Mjlab-Velocity-Flat-Unitree-Go1 --env.scene.num-envs 4096
 
 # Added by Yi
 # Xiaoli
-uv run train Mjlab-Velocity-Flat-Xiaoli
-uv run train Mjlab-Velocity-Rough-Xiaoli
+uv run train Mjlab-Velocity-Flat-Xiaoli --env.scene.num-envs 4096
+uv run train Mjlab-Velocity-Rough-Xiaoli --env.scene.num-envs 4096
 
 # Go2
-uv run train Mjlab-Velocity-Flat-Unitree-Go2
-uv run train Mjlab-Velocity-Rough-Unitree-Go2
+uv run train Mjlab-Velocity-Flat-Unitree-Go2 --env.scene.num-envs 4096
+uv run train Mjlab-Velocity-Rough-Unitree-Go2 --env.scene.num-envs 4096
 ```
 
 **Multi-GPU Training:** Scale to multiple GPUs using `--gpu-ids`:
@@ -76,10 +77,19 @@ Train a humanoid to mimic reference motions. See the [motion imitation guide](ht
 
 ```bash
 uv run train Mjlab-Tracking-Flat-Unitree-G1 --registry-name your-org/motions/motion-name --env.scene.num-envs 4096
+```
+
+### play
+```bash
 uv run play Mjlab-Tracking-Flat-Unitree-G1 --wandb-run-path your-org/mjlab/run-id
 
-# Added by Yi
-uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velocity/2026-03-17_18-08-56/model_9999.pt
+
+uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velocity/2026-03-18_10-24-53/model_0.pt
+
+uv run play Mjlab-Velocity-Flat-Unitree-Go1 --checkpoint_file logs/rsl_rl/go1_velocity/2026-03-18_10-10-07/model_450.pt
+
+
+uv run play Mjlab-Velocity-Flat-Unitree-Go2 --checkpoint_file logs/rsl_rl/go2_velocity/2026-03-18_10-39-38/model_0.pt
 ```
 
 ### 3. Sanity-check with Dummy Agents
@@ -87,8 +97,11 @@ uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velo
 Use built-in agents to sanity check your MDP before training:
 
 ```bash
-uv run play Mjlab-Your-Task-Id --agent zero  # Sends zero actions
-uv run play Mjlab-Your-Task-Id --agent random  # Sends uniform random actions
+uv run play Mjlab-Velocity-Flat-Unitree-Go1 --agent zero  # Sends zero actions
+uv run play Mjlab-Velocity-Flat-Unitree-Go1 --agent random  # Sends uniform random actions
+
+uv run play Mjlab-Velocity-Flat-Unitree-Go2 --agent zero
+uv run play Mjlab-Velocity-Flat-Xiaoli --agent zero
 ```
 
 When running motion-tracking tasks, add `--registry-name your-org/motions/motion-name` to the command.
