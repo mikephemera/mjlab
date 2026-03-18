@@ -91,7 +91,7 @@ uv run train Mjlab-Tracking-Flat-Unitree-G1 --registry-name your-org/motions/mot
 uv run play Mjlab-Tracking-Flat-Unitree-G1 --wandb-run-path your-org/mjlab/run-id
 
 
-uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velocity/2026-03-18_11-14-10/model_0.pt
+uv run play Mjlab-Velocity-Flat-Xiaoli --checkpoint_file logs/rsl_rl/xiaoli_velocity/2026-03-18_11-14-10/model_10000.pt
 
 uv run play Mjlab-Velocity-Flat-Unitree-Go1 --checkpoint_file logs/rsl_rl/go1_velocity/2026-03-18_10-10-07/model_450.pt
 
