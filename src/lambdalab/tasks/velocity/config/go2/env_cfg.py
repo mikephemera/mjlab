@@ -65,7 +65,7 @@ def go2_velocity_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   cfg.viewer.body_name = "base_link"
   cfg.viewer.distance = 1.5
   cfg.viewer.elevation = -10.0
-  
+
   # Configure foot_height observation with foot sites
   cfg.observations["critic"].terms["foot_height"].params[
     "asset_cfg"
@@ -141,7 +141,7 @@ def go2_velocity_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   # Disable terrain curriculum
   if cfg.curriculum is not None and "terrain_levels" in cfg.curriculum:
     del cfg.curriculum["terrain_levels"]
-  
+
   # Apply play mode overrides for flat terrain
   if play:
     cfg.episode_length_s = int(1e9)

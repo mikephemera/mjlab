@@ -17,7 +17,7 @@ class VelocityOnPolicyRunner(OnPolicyRunner):
     """Save the model and training information."""
     super().save(path, infos)
     # Check if using wandb logger before exporting ONNX
-    if hasattr(self, 'logger_type') and self.logger_type in ["wandb"]:
+    if hasattr(self, "logger_type") and self.logger_type in ["wandb"]:
       policy_path = path.split("model")[0]
       filename = os.path.basename(os.path.dirname(policy_path)) + ".onnx"
       if self.alg.policy.actor_obs_normalization:

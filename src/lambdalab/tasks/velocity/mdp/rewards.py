@@ -367,7 +367,7 @@ def joint_position_penalty(
   velocity_threshold: float = 0.1,
 ) -> torch.Tensor:
   """Penalize deviation from default joint positions.
-  
+
   Applies stronger penalty when robot is standing still (command speed low and body speed low).
   This is commonly used in velocity tracking tasks for legged robots.
   """
@@ -375,9 +375,9 @@ def joint_position_penalty(
   joint_pos = asset.data.joint_pos
   default_joint_pos = asset.data.default_joint_pos
   assert default_joint_pos is not None
-  
+
   joint_pos_error = torch.linalg.norm(joint_pos - default_joint_pos, dim=-1)
-  
+
   if command_name is not None:
     command = env.command_manager.get_command(command_name)
     if command is not None:
@@ -389,11 +389,9 @@ def joint_position_penalty(
       moving_mask = (cmd_speed > 0.0) | (body_speed_xy > velocity_threshold)
       # Apply stronger penalty when standing still
       joint_pos_error = torch.where(
-        moving_mask, 
-        joint_pos_error, 
-        stand_still_scale * joint_pos_error
+        moving_mask, joint_pos_error, stand_still_scale * joint_pos_error
       )
-  
+
   return joint_pos_error
 
 
@@ -402,7 +400,7 @@ def power_consumption(
   asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
 ) -> torch.Tensor:
   """Penalize mechanical power consumption: |joint_vel * torque|.
-  
+
   This is the absolute value of mechanical power, commonly used for energy efficiency.
   """
   asset: Entity = env.scene[asset_cfg.name]
@@ -420,7 +418,7 @@ def undesired_contact_penalty(
   sensor_name: str,
 ) -> torch.Tensor:
   """Penalize undesired body contacts (thighs, calfs, hips, etc).
-  
+
   Returns 1.0 if any undesired contact is detected, 0.0 otherwise.
   Used for legged robots to penalize collisions on leg segments.
   """
@@ -436,7 +434,7 @@ def base_illegal_contact(
   sensor_name: str,
 ) -> torch.Tensor:
   """Penalize base contact with ground (illegal contact for legged robots).
-  
+
   Returns 1.0 if base contact is detected, 0.0 otherwise.
   Used to penalize base hitting the ground in legged locomotion.
   """
@@ -453,26 +451,26 @@ def feet_air_time_variance(
   max_contact_time: float = 0.5,
 ) -> torch.Tensor:
   """Penalize variance in air time and contact time across feet.
-  
+
   Encourages symmetric gait patterns by penalizing uneven step timing.
   """
   sensor: ContactSensor = env.scene[sensor_name]
   sensor_data = sensor.data
-  
+
   if sensor_data.last_air_time is None or sensor_data.last_contact_time is None:
     return torch.zeros(env.num_envs, device=env.device)
-  
+
   last_air_time = sensor_data.last_air_time
   last_contact_time = sensor_data.last_contact_time
-  
+
   # Clip times to avoid penalizing very long times
   air_time_clipped = last_air_time.clamp(max=max_air_time)
   contact_time_clipped = last_contact_time.clamp(max=max_contact_time)
-  
+
   # Compute variance across feet
   air_time_var = air_time_clipped.var(dim=1)
   contact_time_var = contact_time_clipped.var(dim=1)
-  
+
   return air_time_var + contact_time_var
 
 
@@ -482,20 +480,20 @@ def feet_slide_penalty(
   asset_cfg: SceneEntityCfg = _DEFAULT_ASSET_CFG,
 ) -> torch.Tensor:
   """Penalize horizontal foot velocity when in contact with ground.
-  
+
   Encourages non-slip foot placement during stance phase.
   """
   asset: Entity = env.scene[asset_cfg.name]
   contact_sensor: ContactSensor = env.scene[sensor_name]
-  
+
   assert contact_sensor.data.found is not None
   is_contact = (contact_sensor.data.found > 0).float()
-  
+
   # Get foot body velocities
   body_vel_w = asset.data.body_link_lin_vel_w[:, asset_cfg.body_ids, :]
   feet_vel_xy = body_vel_w[:, :, :2]
   feet_speed = torch.linalg.norm(feet_vel_xy, dim=-1)
-  
+
   # Penalize sliding when in contact
   feet_slide = (feet_speed * is_contact).sum(dim=-1)
   return feet_slide

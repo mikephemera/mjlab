@@ -4,7 +4,7 @@ from lambdalab.tasks.velocity.rl import VelocityOnPolicyRunner
 from .env_cfg import (
   go2_velocity_flat_env_cfg,
   go2_velocity_rough_env_cfg,
-  )
+)
 from .rl_cfg import go2_ppo_cfg
 
 register_lambdalab_task(

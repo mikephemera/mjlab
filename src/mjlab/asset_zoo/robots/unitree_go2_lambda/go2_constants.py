@@ -15,12 +15,7 @@ from lambdalab.utils.actuator import ElectricActuator, reflected_inertia
 ##
 
 GO2_XML: Path = (
-  LAMBDALAB_SRC_PATH
-  / "asset_zoo"
-  / "robots"
-  / "unitree_go2"
-  / "xmls"
-  / "go2.xml"
+  LAMBDALAB_SRC_PATH / "asset_zoo" / "robots" / "unitree_go2" / "xmls" / "go2.xml"
 )
 assert GO2_XML.exists()
 
@@ -103,7 +98,7 @@ def get_go2_robot_cfg() -> EntityCfg:
         # Knee joints.
         ".*_calf_joint": -1.8,
         # Abduction (hip roll) joints - add slight outward angle for stability.
-        "(FR|RR)_hip_joint": 0.1,   # Right side: outward
+        "(FR|RR)_hip_joint": 0.1,  # Right side: outward
         "(FL|RL)_hip_joint": -0.1,  # Left side: inward
       },
       joint_vel={".*": 0.0},
