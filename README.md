@@ -109,6 +109,8 @@ uv run play Mjlab-Velocity-Flat-Unitree-Go1 --agent random  # Sends uniform rand
 
 uv run play Mjlab-Velocity-Flat-Unitree-Go2 --agent zero
 uv run play Mjlab-Velocity-Flat-Xiaoli --agent zero
+
+uv run play Mjlab-Velocity-Flat-Unitree-Go2-Lambda --agent zero
 ```
 
 When running motion-tracking tasks, add `--registry-name your-org/motions/motion-name` to the command.
